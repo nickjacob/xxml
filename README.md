@@ -7,16 +7,23 @@ The main point of this library is to provide a `XXML.stringify` that is identica
 ```javascript
 var xml = {
   places: [
+
     {
-      text: 'Boston',
-      state: 'MA'
+      text: 'Boston', // in a list of same-type nodes
+      state: 'MA' // you can specify a node this way ('text' will be inner text)
     },
+
     'New York'
   ],
+
   owner: {
+
+    // you can also specify attrs in an "attrs" object
     attrs: {
       age: '20'
     },
+
+    // you can have nested objects (duh it's XML!)
     name: {
       attrs: {
         type: 'full'
@@ -24,6 +31,7 @@ var xml = {
       first: 'Joe',
       last: 'Cool'
     }
+
   }
 };
 
