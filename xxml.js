@@ -6,6 +6,10 @@
       _slice = Array.prototype.slice,
       ATTR = /attrs/i;
 
+
+  // _foreach
+  //  simple iterator utility;
+  //  variable in iife to produce copy
   function _foreach (obj, fn) {
     var k = 0, l = obj.length;
     if (is_arr(obj)) {
@@ -25,6 +29,7 @@
     }
   }
 
+  // type testing functions
   function is_str(obj) {
     return toStr.call(obj) === '[object String]';
   }
@@ -33,6 +38,9 @@
     return toStr.call(obj) === '[object Array]';
   }
 
+  // debugging print functions
+  //  if DEBUG = true, you'll get
+  //  pretty-printed output (useful for console)
   function x_times (c, x) {
     x = x || 0;
     var i = 0, out = ""; for(;i < x; i++) { out += c; };
@@ -51,6 +59,14 @@
     return out;
   }
 
+  // class XXMLNode
+  //  used in parsing the javascript object
+  //
+  //  @params
+  //    tag:string - XML tag
+  //    val:array<?> - children
+  //    attrs:object - metadata
+  //
   function XXMLNode(tag, val, attrs) {
     this.tag = tag;
     this.attrs = this.attrString(attrs);
@@ -58,12 +74,21 @@
   }
 
   XXMLNode.prototype = {
+    
+    // used if you want to build
+    // the XML instead of producing
+    // a javascript object
     addChild: function (child) {
       this.val.push(child);
     },
+
+    // accessor for node children
     children: function () {
       return this.val;
     },
+
+    // used to turn the attributes into a string
+    // TODO: should this be moved into a static fn?
     attrString: function (attrs) {
       var out = "";
       if (!attrs) return "";
@@ -75,6 +100,8 @@
       return out;
 
     },
+
+    // override toString to produce XML
     toString: function (depth) {
       if (depth != null && DEBUG) {
         return this.debugString(depth);
@@ -82,7 +109,10 @@
         var str =  "<" + this.tag + this.attrs + ">" + val_str(this.val, depth + 1) + "</" + this.tag + ">";
         return str;
       }
-    }, 
+    },
+
+    // produces properly indented XML output
+    // (for prettyprinting to the console)
     debugString: function (depth) {
       return [
         x_times("\t", depth),
@@ -92,8 +122,15 @@
         "</", this.tag, ">"
       ].join("");
     }
+
   };
 
+  // parse
+  //  this parses an object into XXMLNodes
+  // @params
+  //  obj:object - to be built into nodes
+  // @returns
+  //  array<XXMLNode>
   function parse (obj) {
 
     var attrs, nodes = [];
@@ -137,6 +174,13 @@
     return nodes;
   }
 
+  // stringify
+  //  to mimic the JSON.stringify function;
+  //  turns a javascript object into XML
+  // @params
+  //  obj:object - javascript object
+  // @returns
+  //  XML string
   function stringify(obj) {
     if (!obj) return;
 
@@ -153,6 +197,13 @@
 
   var json_parse = JSON && JSON.parse ? JSON.parse : eval;
 
+  // json_to_xml
+  //  quick little helper function to parse JSON 
+  //  into an object, then into XML string
+  // @params
+  //  json:string - json string
+  // @returns
+  //  string - xml string
   function json_to_xml (json) {
     try {
       var json_obj = json_parse(json),
@@ -165,7 +216,7 @@
 
   window.XXML = window.XXML || {};
 
-  // public API
+  // public API functions
   window.XXML.parse = parse;
   window.XXML.stringify = stringify;
   window.XXML.json_to_xml = json_to_xml;
