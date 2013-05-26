@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <script src='./to_xml.js'></script>
+    <script src='./filewriter.js'></script>
+  </head>
+  <body>
+    <h1>hi</h1>
+    <input type='text' id="filename"/><button id="start">start</button>
+    <div id="hello"></div>
+  </body>
+  <script>
+    var div = document.getElementById('hello');
+
+    document.getElementById('start').onclick = function () {
+
+      var filename = document.getElementById('filename').value;
+      filename = /.+\.xml$/i.test(filename) ? filename : filename + ".xml";
+
+      var xml = XXML.stringify({
+        places: {
+          attrs: {
+            length: 'rang'
+          },
+          place: [
+            {
+              text: 'treme',
+              length: '55',
+              type: 'turkey'
+            },
+            'one',
+            'two',
+            'three',
+            'four'
+          ]
+        },
+        person: {
+          text: 'nick',
+          length: '3'
+        },
+        name: 'cool',
+        id: '1234434'
+      });
+
+      filesystem.createFile(filename, function (ff) {
+        ff.write({ data: xml, type: 'application/xml' }, function (err, success) {
+          if (success) {
+            div.innerHTML = "<a href='" + ff._file.toURL() + "' download_uh='" + filename + "'>download " + filename + "</a>";
+          }
+        });
+      });
+    }
+
+  </script>
+</html>
