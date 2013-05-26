@@ -26,6 +26,11 @@
   }
 
   FFile.prototype = {
+
+    toURL: function () {
+      return this._file.toURL();
+    },
+
     read: function (cb) {
       var reader = new FileReader();
       reader.onloadend = function (e) {
@@ -33,6 +38,7 @@
       };
       reader.readAsText(this._file);
     },
+
     write: function (data, cb) {
       this._file.createWriter(function (writer) {
         writer.onwriteend = function (e) {

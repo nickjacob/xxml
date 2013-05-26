@@ -47,4 +47,21 @@ produces...
 
 ### `filesystem.js`
 
-This provides a simplification of the HTML5 filesystem API, a really simple `createFile` function and a corresponding `read` and `write` function for a `FFile` object. Usage in `test.html`.
+This provides a simplification of the HTML5 filesystem API, a really simple `createFile` function and a corresponding `read` and `write` function for a `FFile` object. How simple is it? Here's an example..
+
+```javascript
+// using the xml object from above..
+var filename = 'test.xml',
+    div = getElementById('result-div');
+
+// produces a download link
+filesystem.createFile(filename, function (ff) {
+  ff.write({ data: xml, type: 'application/xml' }, function (err, success) {
+    if (!err) {
+      div.innerHTML = "<a href='" + ff.toURL() + "' download='" + filename + "'>download " + filename + "</a>";
+    }
+  });
+});
+```
+
+There's more usage in [`test.html`]('blob/master/test.html').
