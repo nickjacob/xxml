@@ -1,7 +1,7 @@
 <html>
   <head>
-    <script src='./to_xml.js'></script>
-    <script src='./filewriter.js'></script>
+    <script src='./xxml.js'></script>
+    <script src='./filesystem.js'></script>
   </head>
   <body>
     <h1>hi</h1>
@@ -43,6 +43,7 @@
 
       filesystem.createFile(filename, function (ff) {
         ff.write({ data: xml, type: 'application/xml' }, function (err, success) {
+          console.log(xml);
           if (success) {
             div.innerHTML = "<a href='" + ff._file.toURL() + "' download_uh='" + filename + "'>download " + filename + "</a>";
           }
