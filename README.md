@@ -1,5 +1,5 @@
 # xxml
-## client-side XML generation
+## client-side XML generation.. and a mini HTML5 filesystem wrapper
 
 ### `XXML.stringify`
 
@@ -64,4 +64,4 @@ filesystem.createFile(filename, function (ff) {
 });
 ```
 
-There's more usage in [`test.html`]('blob/master/test.html').
+There's more usage in [`test.html`](test.html).
