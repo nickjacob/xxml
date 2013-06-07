@@ -195,7 +195,14 @@
     return root.toString(0) + (DEBUG ? "\n" : "");
   }
 
-  var json_parse = JSON && JSON.parse ? JSON.parse : eval;
+  // safer than eval at least since 
+  // input is checked to be a base Object
+  function __json_shim(literal) {
+    var fn = new Function([], 'var obj=' + literal + '; return ({}.toString.call(obj) === "[object Object]") ? obj : null;');
+    return fn();
+  }
+  
+  var json_parse = JSON && JSON.parse ? JSON.parse : __json_shim;
 
   // json_to_xml
   //  quick little helper function to parse JSON 
