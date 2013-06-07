@@ -12,18 +12,18 @@
   //  variable in iife to produce copy
   function _foreach (obj, fn) {
     var k = 0, l = obj.length;
+    function __iter (k,v) {
+      fn.call(obj, k, v);
+    }
+    
     if (is_arr(obj)) {
       for (; k < l; k++) {
-        (function (key, val) {
-          fn.call(obj, key, val);
-        }(k, obj[k]));
+        __iter(k, obj[k]);
       }
     } else {
       for (k in obj) {
         if (hasOwn.call(obj, k)) {
-          (function (key, val) {
-            fn.call(obj, key, val);
-          }(k, obj[k]));
+          __iter(k, obj[k]);
         }
       }
     }
