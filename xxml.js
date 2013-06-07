@@ -198,8 +198,9 @@
   // safer than eval at least since 
   // input is checked to be a base Object
   function __json_shim(literal) {
-    var fn = new Function([], 'var obj=' + literal + '; return ({}.toString.call(obj) === "[object Object]") ? obj : null;');
-    return fn();
+    return (new Function(
+      [], 'var obj=' + literal + '; return ({}.toString.call(obj) === "[object Object]") ? obj : null;'
+    ))();
   }
   
   var json_parse = JSON && JSON.parse ? JSON.parse : __json_shim;
